@@ -22,3 +22,4 @@ logs
 .env.*
 !.env.example
 data/data.db
+cms/public/uploads/*
