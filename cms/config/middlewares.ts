@@ -3,7 +3,8 @@ import type { Core } from '@strapi/strapi';
 const config: Core.Config.Middlewares = [
   'strapi::logger',
   'strapi::errors',
-  'strapi::security',
+  'strapi::security', // 必需的核心中间件
+  'global::csp-override', // 自定义中间件：覆盖 CSP 策略（允许内联脚本）
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',

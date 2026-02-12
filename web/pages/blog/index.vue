@@ -9,6 +9,7 @@ const total = ref(0)
 const loading = ref(false)
 
 async function loadPage(page: number) {
+  if (loading.value) return // 防止重复请求
   loading.value = true
   try {
     const res = await fetchArticles(page, pageSize)
@@ -19,15 +20,21 @@ async function loadPage(page: number) {
     }
     total.value = res.meta?.pagination?.total ?? 0
     currentPage.value = page
+  } catch (error) {
+    console.error('加载文章失败:', error)
+    // 可以在这里添加错误提示
   } finally {
     loading.value = false
   }
 }
 
+// 服务端渲染时加载第一页
 await loadPage(1)
 
 function loadMore() {
-  loadPage(currentPage.value + 1)
+  if (!loading.value && articles.value.length < total.value) {
+    loadPage(currentPage.value + 1)
+  }
 }
 
 function posterUrl(poster: unknown): string {

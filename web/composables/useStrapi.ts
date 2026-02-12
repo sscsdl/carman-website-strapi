@@ -3,7 +3,26 @@ const FALLBACK_LOCALE = 'en'
 export function useStrapi() {
   const config = useRuntimeConfig()
   const { locale } = useI18n()
-  const baseUrl = config.public.strapiUrl as string
+  
+  // 获取 baseURL
+  // 如果配置了环境变量，使用环境变量
+  // 否则在生产环境使用空字符串（相对路径），开发环境使用 localhost
+  let baseUrl = config.public.strapiUrl as string
+  
+  if (!baseUrl) {
+    if (process.client) {
+      // 客户端：使用当前域名（同源请求）
+      baseUrl = window.location.origin
+    } else {
+      // 服务端：使用默认值
+      baseUrl = 'http://localhost:1337'
+    }
+  }
+  
+  // 如果 baseUrl 为空字符串，表示使用相对路径（同源）
+  if (baseUrl === '') {
+    baseUrl = '' // 保持为空，使用相对路径
+  }
 
   function getLocale(): string {
     const code = locale.value as string
