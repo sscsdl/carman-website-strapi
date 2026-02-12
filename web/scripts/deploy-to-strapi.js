@@ -12,12 +12,17 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(__filename, '..');
-const rootDir = resolve(__dirname, '..');
-const webDir = resolve(rootDir, 'web');
+// 脚本在 web/scripts/ 目录下，所以 webDir 是上一级目录
+const webDir = resolve(__dirname, '..');
+const rootDir = resolve(webDir, '..');
 const cmsPublicDir = resolve(rootDir, 'cms', 'public');
 const outputDir = resolve(webDir, '.output', 'public');
 
 console.log('🚀 开始部署 Nuxt 静态文件到 Strapi public 目录...\n');
+console.log(`📂 检查路径:`);
+console.log(`   webDir: ${webDir}`);
+console.log(`   outputDir: ${outputDir}`);
+console.log(`   cmsPublicDir: ${cmsPublicDir}\n`);
 
 // 1. 检查 .output/public 目录是否存在
 if (!existsSync(outputDir)) {
