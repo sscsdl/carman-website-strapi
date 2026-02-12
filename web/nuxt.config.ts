@@ -23,4 +23,10 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: false },
+  // 静态生成配置：使用 generate 命令时输出到 Strapi 的 public 目录
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+    },
+  },
 });

@@ -42,6 +42,41 @@ npm run dev
 
 ## 部署说明
 
+### 方案一：将 Nuxt 静态文件部署到 Strapi public 目录（推荐）
+
+这种方式将前端静态文件放在 Strapi 的 `public/` 目录下，通过 Strapi 服务器统一提供前端和 API 服务。
+
+**步骤：**
+
+1. **构建并部署前端到 Strapi public 目录：**
+   ```bash
+   cd web
+   npm install
+   # 设置生产环境的 Strapi URL（如果需要）
+   export NUXT_PUBLIC_STRAPI_URL=https://your-domain.com
+   # 生成静态文件并部署到 cms/public
+   npm run deploy
+   ```
+
+2. **构建并启动 Strapi：**
+   ```bash
+   cd cms
+   npm install
+   npm run build
+   npm run start
+   ```
+
+3. **访问：**
+   - 前端网站：`http://your-domain.com/`（或 `https://your-domain.com/`）
+   - 后台管理：`http://your-domain.com/admin`
+   - API：`http://your-domain.com/api/...`
+
+**注意：**
+- 部署脚本会自动备份和恢复 `uploads/` 目录和 `robots.txt`
+- 确保 `NUXT_PUBLIC_STRAPI_URL` 指向正确的 Strapi 地址（生产环境应该是相对路径或完整 URL）
+
+### 方案二：独立部署（传统方式）
+
 - **Strapi**：自托管时使用 Node 运行 `npm run build && npm run start`，数据库可换为 PostgreSQL 等（见 Strapi 文档）。
 - **Nuxt**：构建后 `npm run generate` 或 `npm run build` + Node 运行，将 `NUXT_PUBLIC_STRAPI_URL` 指向线上 Strapi 地址。
 - 后台可公网访问时，建议强密码 + 必要时配合 Nginx 限流/IP 白名单。

@@ -11,6 +11,8 @@ const config: Core.Config.Middlewares = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+  // SPA fallback 中间件：处理前端路由
+  'global::spa-fallback',
 ];
 
 export default config;
