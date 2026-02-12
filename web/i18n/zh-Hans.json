@@ -3,5 +3,21 @@
   "blog": "博客",
   "more": "更多",
   "backToBlog": "返回博客",
-  "articleNotFound": "文章未找到"
+  "articleNotFound": "文章未找到",
+  "viewAllGuides": "查看所有 Carman 指南",
+  "wheelPreviews": "轮毂预览",
+  "brakeCaliperPreviews": "刹车卡钳预览",
+  "carMagazineFilter": "汽车杂志封面滤镜",
+  "roofBoxPreview": "车顶箱预览",
+  "moreCase": "更多案例",
+  "readMore": "阅读更多",
+  "about": "关于",
+  "contactUs": "联系我们",
+  "noArticles": "暂无文章。",
+  "loading": "加载中...",
+  "byCarmanTeam": "Carman 团队",
+  "previewWheels": "为我的爱车预览轮毂",
+  "wheelBrands": "27+ 轮毂品牌，400+ 实时改装预览",
+  "publishedOn": "发布于",
+  "readTime": "分钟阅读"
 }

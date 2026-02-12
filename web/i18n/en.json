@@ -3,5 +3,21 @@
   "blog": "Blog",
   "more": "More",
   "backToBlog": "Back to Blog",
-  "articleNotFound": "Article not found"
+  "articleNotFound": "Article not found",
+  "viewAllGuides": "View All Carman Guides",
+  "wheelPreviews": "Wheel Previews",
+  "brakeCaliperPreviews": "Brake Caliper Previews",
+  "carMagazineFilter": "Car Magazine Cover Filter",
+  "roofBoxPreview": "Roof Box Preview",
+  "moreCase": "More Case",
+  "readMore": "Read more",
+  "about": "About",
+  "contactUs": "Contact US",
+  "noArticles": "No articles yet.",
+  "loading": "Loading...",
+  "byCarmanTeam": "By Carman Team",
+  "previewWheels": "Preview Wheels for My Car",
+  "wheelBrands": "27+ Wheel Brands, 400+ Real-Time Modification Previews",
+  "publishedOn": "Published on",
+  "readTime": "min read"
 }

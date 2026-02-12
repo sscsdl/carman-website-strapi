@@ -5,14 +5,16 @@ export default defineNuxtConfig({
   i18n: {
     strategy: 'prefix_and_default',
     locales: [
-      { name: 'English', code: 'en', iso: 'en-US', dir: 'ltr', file: 'en.json' },
-      { name: '简体中文', code: 'zh-Hans', iso: 'zh-CN', dir: 'ltr', file: 'zh-Hans.json' },
-      { name: '繁體中文', code: 'zh-Hant', iso: 'zh-TW', dir: 'ltr', file: 'zh-Hant.json' },
+      { name: 'English', code: 'en', iso: 'en-US', dir: 'ltr' },
+      { name: '简体中文', code: 'zh-Hans', iso: 'zh-CN', dir: 'ltr' },
+      { name: '繁體中文', code: 'zh-Hant', iso: 'zh-TW', dir: 'ltr' },
     ],
     defaultLocale: 'en',
-    // 语言文件目录，相对于项目根目录
-    langDir: 'i18n/',
-    lazy: true,
+    vueI18n: '~/i18n.config.ts',
+    // 禁用优化翻译指令的警告
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
   runtimeConfig: {
     public: {
