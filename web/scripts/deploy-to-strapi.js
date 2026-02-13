@@ -31,6 +31,12 @@ if (!existsSync(outputDir)) {
   process.exit(1);
 }
 
+// 1.1 确保 cms/public 存在（首次部署时可能不存在）
+if (!existsSync(cmsPublicDir)) {
+  console.log('📁 创建 cms/public 目录...');
+  mkdirSync(cmsPublicDir, { recursive: true });
+}
+
 // 2. 备份 uploads 目录（如果存在）
 const uploadsDir = join(cmsPublicDir, 'uploads');
 const uploadsBackup = join(cmsPublicDir, 'uploads.backup');
