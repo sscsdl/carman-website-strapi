@@ -22,6 +22,6 @@ logs
 .env.*
 !.env.example
 data
-cms/dist/*
+cms/dist/build/*
 cms/public/*
 
