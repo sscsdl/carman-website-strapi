@@ -15,18 +15,18 @@ useSeoMeta({
     class="bg-black sm:bg-[url('/images/background.webp')] sm:bg-[length:90%_auto] sm:bg-[position:160%_18%] 2xl:bg-[length:90%_auto] bg-no-repeat text-white max-w-full flex flex-col items-start justify-between min-h-screen"
   >
     <div class="mx-auto sm:px-6 lg:px-8 w-11/12 max-w-full sm:max-w-7xl box-border">
-      <div class="max-w-full mx-auto h-24 flex items-center justify-center sm:justify-start">
+      <!-- <div class="max-w-full mx-auto h-24 flex items-center justify-center sm:justify-start">
         <div>
           <img src="/images/logo.png" alt="logo" class="block w-12 rounded-lg">
         </div>
         <div class="ml-3 font-bold text-2xl">Carman</div>
-      </div>
-      <NuxtLink
+      </div> -->
+      <!-- <NuxtLink
         :to="localePath('/blog')"
         class="text-primary-400 hover:underline mt-4 inline-block"
       >
         Blog
-      </NuxtLink>
+      </NuxtLink> -->
       <div
         class="flex flex-col items-center justify-start w-full sm:w-3/4 md:w-2/3 lg:w-1/2 sm:items-start mt-0 sm:mt-14"
       >

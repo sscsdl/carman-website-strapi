@@ -30,14 +30,36 @@ export function useStrapi() {
     return FALLBACK_LOCALE
   }
 
-  async function fetchArticles(page = 1, pageSize = 10) {
+  async function fetchCategories() {
     const loc = getLocale()
-    const url = `${baseUrl}/api/articles?locale=${loc}&publicationState=live&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=publishedAt:desc&populate=poster`
+    const url = `${baseUrl}/api/categories?locale=${loc}&sort[0]=name:asc`
+    try {
+      const res = await $fetch<{ data: unknown[] }>(url)
+      return res.data || []
+    } catch {
+      if (loc !== FALLBACK_LOCALE) {
+        const fallback = await $fetch<{ data: unknown[] }>(
+          `${baseUrl}/api/categories?locale=${FALLBACK_LOCALE}&sort[0]=name:asc`
+        )
+        return fallback.data || []
+      }
+      return []
+    }
+  }
+
+  async function fetchArticles(page = 1, pageSize = 10, categorySlug?: string) {
+    const loc = getLocale()
+    let url = `${baseUrl}/api/articles?locale=${loc}&publicationState=live&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=publishedAt:desc&populate[0]=poster&populate[1]=category`
+    if (categorySlug) {
+      url += `&categorySlug=${encodeURIComponent(categorySlug)}`
+    }
     const res = await $fetch<{ data: unknown[]; meta: { pagination: { total: number } } }>(url)
     if (res.data.length === 0 && loc !== FALLBACK_LOCALE) {
-      const fallback = await $fetch<{ data: unknown[]; meta: { pagination: { total: number } } }>(
-        `${baseUrl}/api/articles?locale=${FALLBACK_LOCALE}&publicationState=live&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=publishedAt:desc&populate=poster`
-      )
+      let fallbackUrl = `${baseUrl}/api/articles?locale=${FALLBACK_LOCALE}&publicationState=live&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort[0]=publishedAt:desc&populate[0]=poster&populate[1]=category`
+      if (categorySlug) {
+        fallbackUrl += `&categorySlug=${encodeURIComponent(categorySlug)}`
+      }
+      const fallback = await $fetch<{ data: unknown[]; meta: { pagination: { total: number } } }>(fallbackUrl)
       return fallback
     }
     return res
@@ -45,17 +67,17 @@ export function useStrapi() {
 
   async function fetchArticleByPath(path: string) {
     const loc = getLocale()
-    const url = `${baseUrl}/api/articles?filters[path][$eq]=${encodeURIComponent(path)}&locale=${loc}&publicationState=live&populate=poster`
+    const url = `${baseUrl}/api/articles?filters[path][$eq]=${encodeURIComponent(path)}&locale=${loc}&publicationState=live&populate[0]=poster&populate[1]=category`
     const res = await $fetch<{ data: unknown[] }>(url)
     if (res.data.length > 0) return res.data[0] as Record<string, unknown>
     if (loc !== FALLBACK_LOCALE) {
       const fallback = await $fetch<{ data: unknown[] }>(
-        `${baseUrl}/api/articles?filters[path][$eq]=${encodeURIComponent(path)}&locale=${FALLBACK_LOCALE}&publicationState=live&populate=poster`
+        `${baseUrl}/api/articles?filters[path][$eq]=${encodeURIComponent(path)}&locale=${FALLBACK_LOCALE}&publicationState=live&populate[0]=poster&populate[1]=category`
       )
       if (fallback.data.length > 0) return fallback.data[0] as Record<string, unknown>
     }
     return null
   }
 
-  return { baseUrl, getLocale, fetchArticles, fetchArticleByPath }
+  return { baseUrl, getLocale, fetchCategories, fetchArticles, fetchArticleByPath }
 }

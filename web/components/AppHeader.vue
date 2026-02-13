@@ -1,10 +1,28 @@
 <script setup lang="ts">
+const route = useRoute()
 const localePath = useLocalePath()
 const { locale, locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
+const { fetchCategories } = useStrapi()
 
 const showLanguageMenu = ref(false)
 const languageMenuRef = ref<HTMLElement | null>(null)
+
+// 导航栏分类（后台设置）：切换语言时重新拉取，客户端为空时再拉一次
+const { data: navCategories, refresh: refreshCategories } = await useAsyncData(
+  'header-categories',
+  () => fetchCategories(),
+  { watch: [locale] }
+)
+const categories = computed(() => (navCategories.value || []) as Record<string, unknown>[])
+
+function isBlogActive(): boolean {
+  return route.path.endsWith('/blog') && !route.query.category
+}
+
+function isCategoryActive(slug: string): boolean {
+  return route.path.endsWith('/blog') && route.query.category === slug
+}
 
 // 获取当前语言显示名称
 const currentLocaleName = computed(() => {
@@ -21,7 +39,7 @@ function switchLanguage(localeCode: string) {
   showLanguageMenu.value = false
 }
 
-// 点击外部区域关闭菜单
+// 点击外部区域关闭菜单；若服务端未拿到分类则在客户端再拉一次
 onMounted(() => {
   const handleClickOutside = (event: MouseEvent) => {
     if (languageMenuRef.value && !languageMenuRef.value.contains(event.target as Node)) {
@@ -32,6 +50,9 @@ onMounted(() => {
   onUnmounted(() => {
     document.removeEventListener('click', handleClickOutside)
   })
+  if (categories.value.length === 0) {
+    refreshCategories()
+  }
 })
 </script>
 
@@ -45,13 +66,24 @@ onMounted(() => {
         </div>
       </NuxtLink>
 
-      <!-- 主导航 -->
+      <!-- 主导航：后台分类 + Blog -->
       <nav class="hidden items-center gap-8 text-sm md:flex">
-        <span class="cursor-default text-gray-200 hover:text-lime-300">{{ $t('wheelPreviews') }}</span>
-        <span class="cursor-default text-gray-200 hover:text-lime-300">{{ $t('brakeCaliperPreviews') }}</span>
-        <span class="cursor-default text-gray-200 hover:text-lime-300">{{ $t('carMagazineFilter') }}</span>
-        <span class="cursor-default text-gray-200 hover:text-lime-300">{{ $t('roofBoxPreview') }}</span>
-        <span class="cursor-default text-lime-400">{{ $t('blog') }}</span>
+        <NuxtLink
+          v-for="cat in categories"
+          :key="(cat.documentId as string) ?? (cat.slug as string)"
+          :to="localePath(`/blog?category=${encodeURIComponent((cat.slug as string) ?? '')}`)"
+          class="text-gray-200 transition hover:text-lime-300"
+          :class="{ 'text-lime-400': isCategoryActive((cat.slug as string) ?? '') }"
+        >
+          {{ (cat.name as string) ?? '' }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath('/blog')"
+          class="text-gray-200 transition hover:text-lime-300"
+          :class="{ 'text-lime-400': isBlogActive() }"
+        >
+          {{ $t('blog') }}
+        </NuxtLink>
       </nav>
 
       <!-- 语言切换下拉菜单 -->

@@ -19,5 +19,8 @@
   "previewWheels": "Preview Wheels for My Car",
   "wheelBrands": "27+ Wheel Brands, 400+ Real-Time Modification Previews",
   "publishedOn": "Published on",
-  "readTime": "min read"
+  "readTime": "min read",
+  "prevPage": "Previous",
+  "nextPage": "Next",
+  "allCategories": "All"
 }

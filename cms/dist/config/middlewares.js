@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config = [
     'strapi::logger',
     'strapi::errors',
+    'global::root-index', // 根路径 / 优先走 cms/public 下的 Nuxt index.html
     'strapi::security', // 必需的核心中间件
     'global::csp-override', // 自定义中间件：覆盖 CSP 策略（允许内联脚本）
     'strapi::cors',

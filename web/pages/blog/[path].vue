@@ -34,10 +34,7 @@ useSeoMeta(() =>
 
 <template>
   <div class="min-h-screen bg-white text-gray-900 flex flex-col">
-    <!-- 顶部导航栏组件 -->
-    <AppHeader />
-
-    <!-- 主体内容 -->
+    <!-- 主体内容（导航栏由 layout 提供） -->
     <main class="flex-1 bg-white">
       <section class="mx-auto max-w-4xl px-4 py-10 lg:py-14">
         <!-- 面包屑（Home > Blog > Article） -->
@@ -72,6 +69,14 @@ useSeoMeta(() =>
           <!-- 文章元信息 -->
           <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-gray-500">
             <div class="flex items-center gap-2">
+              <NuxtLink
+                v-if="article.category && (article.category as Record<string, unknown>).slug"
+                :to="localePath(`/blog?category=${(article.category as Record<string, unknown>).slug}`)"
+                class="hover:text-gray-900 hover:underline"
+              >
+                {{ (article.category as Record<string, unknown>)?.name ?? '' }}
+              </NuxtLink>
+              <template v-if="article.category"> · </template>
               <span>{{ $t('byCarmanTeam') }}</span>
             </div>
             <span v-if="article.publishedAt" class="flex items-center gap-2">
